@@ -39,7 +39,10 @@ class Map:
     
     # méthode qui va initialiser la position de la porte en repsectant que la porte soit dans la périphérie de la map
     def set_door_position(self, x, y):
-        if x <= self.width-1 and y <= self.height-1:
+        if (x == 0 and 0 <= y < self.height) or \
+       (x == self.width - 1 and 0 <= y < self.height) or \
+       (y == 0 and 0 <= x < self.width) or \
+       (y == self.height - 1 and 0 <= x < self.width):
             self.map[x,y] = 2 # on initialise le status à 2
             self.position_door = [x,y]
         else:
@@ -50,7 +53,7 @@ mp = Map(5,5)
 
 mp.set_obstacle(x=1,y=1,w=2,h=3)
 
-mp.set_door_position(4,1)
+mp.set_door_position(1,4)
 
 print("the door is in ", mp.position_door)
 
