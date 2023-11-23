@@ -45,3 +45,17 @@ class Map:
         else:
             print(f"la position de la porte est mauvaise, la taille de la matrice est [{self.width},{self.height}]")
             exit()
+            
+mp = Map(5,5)
+
+mp.set_obstacle(x=1,y=1,w=2,h=3)
+
+mp.set_door_position(4,1)
+
+print("the door is in ", mp.position_door)
+
+for x in range(mp.width):
+    for y in range(mp.height):
+        print(f"la position [{x},{y}] a pour valeur {mp.map[x,y]}")
+
+print("\n" , mp.map)
