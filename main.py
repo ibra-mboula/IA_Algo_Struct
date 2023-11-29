@@ -5,7 +5,7 @@ from plot import plot_map_with_nodes
 
 def main():
     # Initialisation de la carte avec des obstacles et une porte
-    mp = im.Map(1000, 1000)
+    mp = im.Map(10, 10)
     mp.set_obstacle(x=1, y=1, w=3, h=3)
     mp.set_obstacle(x=5, y=5, w=1, h=1)
     
