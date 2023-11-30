@@ -14,22 +14,33 @@ def main():
     # Création et connexion des nœuds selon la carte
     all_nodes = nd.create_and_connect_nodes(mp)
     
-    # Trouver le nœud de départ et le nœud d'arrivée
-    start_node = next(node for node in all_nodes if node.id == (0, 0))  # Exemple de position de départ
-    goal_node = next(node for node in all_nodes if node.id == (9, 6))  # Exemple de position d'arrivée
+    # Définir les points de départ et d'arrivée pour deux parcours
+    start_node_1 = next(node for node in all_nodes if node.id == (0, 0))
+    goal_node_1 = next(node for node in all_nodes if node.id == (6, 9))
+    
+    # Réinitialiser les nœuds pour le second parcours
+    nd.reset_nodes(all_nodes)
+    
+    start_node_2 = next(node for node in all_nodes if node.id == (5, 0))
+    goal_node_2 = next(node for node in all_nodes if node.id == (6, 9))
 
-    # Appel de l'algorithme A*
-    path = nd.a_star(start_node, goal_node, mp)
-    print("Chemin trouvé:", path)
+# Premier parcours A*
+    path_1 = nd.a_star(start_node_1, goal_node_1, mp)
+    print("Chemin 1 trouvé:", path_1)
 
-    # Impression des détails des nœuds pour vérifier
-    for node in all_nodes:
-        print(f"Nœud {node.id}: voisins -> {[neighbor.id for neighbor in node.neighbors]}")
-        
-    # Affichage des nœuds et de la map
-    plot_map_with_nodes(mp, all_nodes,path)
+    # Réinitialiser les nœuds pour le second parcours
+    nd.reset_nodes(all_nodes)
 
+    # Définir les points de départ et d'arrivée pour le second parcours
+    start_node_2 = next(node for node in all_nodes if node.id == (1, 4))
+    goal_node_2 = next(node for node in all_nodes if node.id == (6, 9))
+
+    # Second parcours A*
+    path_2 = nd.a_star(start_node_2, goal_node_2, mp)
+    print("Chemin 2 trouvé:", path_2)
+
+    # Affichage des nœuds et de la map avec les chemins
+    plot_map_with_nodes(mp, all_nodes, [path_1, path_2])
 
 if __name__ == "__main__":
     main()
-    

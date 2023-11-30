@@ -9,6 +9,7 @@ class Node:
         self.h = 0  # Heuristique (distance estimée jusqu'au nœud cible)
         self.f = float('inf')  # Coût total (g + h)
         self.parent = None  # Nœud parent
+
         
 
     def add_neighbor(self, neighbor):
@@ -75,3 +76,10 @@ def reconstruct_path(current):
         path.append(current.id)
         current = current.parent
     return path[::-1]  # Retourner le chemin inversé
+
+def reset_nodes(nodes):
+    for node in nodes:
+        node.g = float('inf')
+        node.h = 0
+        node.f = float('inf')
+        node.parent = None
