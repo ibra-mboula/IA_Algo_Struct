@@ -10,18 +10,19 @@ def plot_map_with_nodes(map_instance, nodes):
             if not map_instance.map[i][j]:  # Si c'est un obstacle
                 ax.plot(i, j, 's', color='red')  # Dessiner un carré rouge
 
-    # Tracer la position de la porte en jaune
-    door_x, door_y = map_instance.position_door
-    ax.plot(door_x, door_y, 's', color='yellow')  # Dessiner un carré jaune
-
     # Tracer les nœuds et leurs connexions
     for node in nodes:
         x, y = node.id
         ax.plot(x, y, 'o', color='blue')  # Dessiner le nœud
+        
         for neighbor in node.neighbors:
             nx, ny = neighbor.id
-            line = mlines.Line2D([x, nx], [y, ny], color='gray')
+            line = mlines.Line2D([x, nx], [y, ny], color='gray' ,linestyle='dashed', linewidth=0.5)
             ax.add_line(line)
+    
+    # Tracer la position de la porte en jaune
+    door_x, door_y = map_instance.position_door
+    ax.plot(door_x, door_y, 's', color='yellow')  # Dessiner un carré jaune
 
     ax.set_xlim(-1, map_instance.width)
     ax.set_ylim(-1, map_instance.height)
