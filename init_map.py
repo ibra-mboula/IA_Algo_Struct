@@ -44,7 +44,7 @@ class Map:
        (y == 0 and 0 <= x < self.width) or \
        (y == self.height - 1 and 0 <= x < self.width):
             self.map[x,y] = 2 # on initialise le status à 2
-            self.position_door = [x,y]
+            self.position_door.append([x,y])
         else:
             print(f"la position de la porte est mauvaise, la taille de la matrice est [{self.width},{self.height}]")
             exit()
