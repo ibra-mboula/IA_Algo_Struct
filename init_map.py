@@ -5,7 +5,7 @@ class Map:
         self.width = width
         self.height = height
         self.map = []
-        self.position_door = []
+        self.position_door = [] # Ici, position_door est initialisé comme une liste
         
         # Je commence à construire la map
         self.set_map()
@@ -44,7 +44,7 @@ class Map:
        (y == 0 and 0 <= x < self.width) or \
        (y == self.height - 1 and 0 <= x < self.width):
             self.map[x,y] = 2 # on initialise le status à 2
-            self.position_door.append([x,y])
+            self.position_door.append(x,y) # Ajoute un tableau [x, y] à la liste
         else:
             print(f"la position de la porte est mauvaise, la taille de la matrice est [{self.width},{self.height}]")
             exit()
