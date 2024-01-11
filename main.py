@@ -70,7 +70,7 @@ def main():
         print("mauvaise coordonnées de la porte de sortie !!")
         exit()
 
-    position_people = [{"x":0, "y":0,"v":3},{"x":8, "y":9,"v":1},{"x":0, "y":3,"v":6}]  # tableau qui contient les positions de chaque personne dans la pièce
+    position_people = [{"x":0, "y":0,"v":1},{"x":18, "y":9,"v":1},{"x":0, "y":3,"v":11}]  # tableau qui contient les positions de chaque personne dans la pièce
     # x et y correspond à la position de la personne et v est sa vitesse
 
     # je commence par créer les instance de chaque personne
@@ -78,34 +78,67 @@ def main():
     for person in position_people:
         peoples.append(ps(map=mp.__copy__(), position=(person["x"],person["y"]),speed=person["v"], nodes_cpy=all_nodes.copy()))# petit point -> je fait une copie de la map et noeud par défaut pour chaque individue
 
-    # ensuite, je vai(s changer l'environnement selon la perception des personnes => une personne est une obstacles pour la personne qui va bouger
-    update_map_for_each_person(peoples=peoples)
 
-    # Maintenant que les autres personnes sont considéré comme des obstacles, je peux alors commencer à faire bouger une personne par une
+    # boucle par mouvement
+    # je vérifie s'il manque des personnes
+    arrived = []
+    for person in peoples:
+        arrived.append(person.arrived)
 
-    # avant de faire ca, je dois trouvé le personne la plus proche du goal -> enfaite les triers
-    people_sorted = person_sorted_by_distance(peoples=peoples, position_objectif=goal_node.id)
+    while False in arrived:
+        # ensuite, je vai(s changer l'environnement selon la perception des personnes => une personne est une obstacles pour la personne qui va bouger
+        update_map_for_each_person(peoples=peoples)
 
-    # et la je commence les mouvements selon le trie
-    paths_per_person = {}
-    for person in people_sorted:
-        best_path = person.make_movement(goal_node)
-        if best_path is not None:
-            paths_per_person[person] = best_path
-        else:
-            paths_per_person[person] = [] # La personne est arrivée, le tableau doit alors être vide
-    # et maintenant, je peut couper le chemin parfait selon la vitesse de la personne
-    for path in paths_per_person:
-        best_way_per_step = []
-        if len(paths_per_person[path])-1 > path.speed:
-            # je prend alors la partie qu'il faut
-            for i in range(path.speed+1):
-                best_way_per_step.append(paths_per_person[path][i])
-            print(best_way_per_step)
-        else:
-            # ca signifie que le goal a été atteint
-            best_way_per_step = paths_per_person[path]
-            print(best_way_per_step)
+        # Maintenant que les autres personnes sont considéré comme des obstacles, je peux alors commencer à faire bouger une personne par une
+
+        # avant de faire ca, je dois trouvé le personne la plus proche du goal -> enfaite les triers
+        people_sorted = person_sorted_by_distance(peoples=peoples, position_objectif=goal_node.id)
+
+        # et la je commence les mouvements selon le trie
+        paths_per_person = {}
+        for person in people_sorted:
+            best_path = person.make_movement(goal_node)
+            if best_path is not None:
+                paths_per_person[person] = best_path
+            else:
+                paths_per_person[person] = [] # La personne est arrivée, le tableau doit alors être vide
+        # et maintenant, je peut couper le chemin parfait selon la vitesse de la personne
+        for path in paths_per_person:
+            best_way_per_step = []
+            if len(paths_per_person[path])-1 > path.speed:
+                # je prend alors la partie qu'il faut
+                for i in range(path.speed+1):
+                    best_way_per_step.append(paths_per_person[path][i])
+                print(best_way_per_step)
+                path.position = best_way_per_step[len(best_way_per_step)-1]
+            else:
+                # ca signifie que le goal a été atteint donc la personne n'est plus un obstacle donc je dois juste l'enlever des peoples
+                path.arrived =True
+                best_way_per_step = paths_per_person[path]
+                if len(best_way_per_step) != 0:
+                    path.position = best_way_per_step[len(best_way_per_step)-1]
+                    print(best_way_per_step)
+                else:
+                    print("la personne est déjà sortie")
+        print("\n")
+
+        # j'efface les personne qui sont sortie
+        people_who_do_not_goOut = {}
+        for person in paths_per_person:
+            if not person.arrived:
+                people_who_do_not_goOut[person] = paths_per_person[person]
+
+        # et à la fin, j'utilise les instances de person et je l'ai met dans people ET je recalcule si toutes les personnes sont arrivées
+        peoples.clear()
+        for person in people_who_do_not_goOut:
+            peoples.append(person)
+
+        arrived.clear()
+        for person in peoples:
+            arrived.append(person.arrived)
+        
+        input()
+
 
 if __name__ == "__main__":
     main()
