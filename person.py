@@ -8,21 +8,31 @@ class person:
         self.position = position # position de la personne
         self.speed = speed # vitesse de la personne (point/déplacement)
         self.nodes_cpy = nodes_cpy
+        self.arrived = False
+        self.each_movement = [] # chaque item de la table correspond à un mouvement d'une personne
 
     def make_new_map(self,other_peoples): # créer la nouvelle map mais par rapport à la perception de cette personne
         for other_person in other_peoples:
             self.map.set_obstacle(x=other_person.position[0], y=other_person.position[1])
 
     def make_movement(self,goal_node): # cette fonction va être appelé pour chaque personne pour qu'elle
-            start_node = next(node for node in self.nodes_cpy if node.id == (self.position[0], self.position[1])) # je récupère le noeud de départ
+            # je vérifie que la personne n'est pas déjà arrivé
+            if goal_node.id == self.position:
+                 self.arrived = True 
 
-            # Réinitialiser les nœuds avant chaque parcours
-            nd.reset_nodes(self.nodes_cpy)
+            if not self.arrived:
+                start_node = next(node for node in self.nodes_cpy if node.id == (self.position[0], self.position[1])) # je récupère le noeud de départ
 
-            # Appel de l'algorithme A* pour le parcours
-            path = nd.a_star(start_node, goal_node, self.map)
-            print(f"Chemin trouvé: {path}")
+                # Réinitialiser les nœuds avant chaque parcours
+                nd.reset_nodes(self.nodes_cpy)
 
-            # pour vérifier que les autres personnes sont des obstacles
-            plot_map_with_nodes(self.map, self.nodes_cpy, [path])
-            return path
+                # Appel de l'algorithme A* pour le parcours
+                path = nd.a_star(start_node, goal_node, self.map)
+                print(f"Chemin trouvé: {path}")
+
+                # pour vérifier que les autres personnes sont des obstacles
+                #plot_map_with_nodes(self.map, self.nodes_cpy, [path])
+
+                return path
+            else:
+                return None

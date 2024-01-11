@@ -86,8 +86,26 @@ def main():
     # avant de faire ca, je dois trouvé le personne la plus proche du goal -> enfaite les triers
     people_sorted = person_sorted_by_distance(peoples=peoples, position_objectif=goal_node.id)
 
+    # et la je commence les mouvements selon le trie
+    paths_per_person = {}
     for person in people_sorted:
-        person.make_movement(goal_node)
+        best_path = person.make_movement(goal_node)
+        if best_path is not None:
+            paths_per_person[person] = best_path
+        else:
+            paths_per_person[person] = [] # La personne est arrivée, le tableau doit alors être vide
+    # et maintenant, je peut couper le chemin parfait selon la vitesse de la personne
+    for path in paths_per_person:
+        best_way_per_step = []
+        if len(paths_per_person[path])-1 > path.speed:
+            # je prend alors la partie qu'il faut
+            for i in range(path.speed+1):
+                best_way_per_step.append(paths_per_person[path][i])
+            print(best_way_per_step)
+        else:
+            # ca signifie que le goal a été atteint
+            best_way_per_step = paths_per_person[path]
+            print(best_way_per_step)
 
 if __name__ == "__main__":
     main()
