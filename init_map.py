@@ -12,7 +12,7 @@ class Map:
     
     # create_matrix est la méthode qui va me retourner une matrice 2x2 selon la longueur et la hauteur
     def create_matrix(self):
-        return np.zeros((self.height,self.width))
+        return np.zeros((self.width,self.height))
     
     # création de la map
     def set_map(self):
@@ -26,7 +26,7 @@ class Map:
         self.map = matrix
     
     # set_obstacles est la methode qui va initialiser les obstance en désactivant
-    def set_obstacle(self,x,y,w,h): # matrix est considéré comme la map, une map est un ensemble de position en 2 dimensions
+    def set_obstacle(self,x,y,w=1,h=1): # matrix est considéré comme la map, une map est un ensemble de position en 2 dimensions
         # Un obstacles sera un rectangle à la position x,y avec un longueur de w et une hauteur de h
         # L'obstacle ne va que désactivé certains positions, car il y a un obstacle
         if(x <= self.width-1 and y <= self.height-1 and x+w <= self.width-1 and y+h <= self.height-1):
