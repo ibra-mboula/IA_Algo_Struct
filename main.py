@@ -1,4 +1,5 @@
 # main.py
+import math
 import init_map as im
 import nodes as nd
 from plot import plot_map_with_nodes
@@ -19,6 +20,28 @@ def update_map_for_each_person(peoples):
         peoples_without_person = [p for p in peoples_array_cloned if p != person]
         person.make_new_map(other_peoples=peoples_without_person)
         person.nodes_cpy = nd.create_and_connect_nodes(person.map)
+
+def distance(position1, position2):
+    return math.sqrt((position2[0] - position1[0])**2 + (position2[1] - position1[1])**2)
+
+def person_sorted_by_distance(peoples, position_objectif):
+
+    positions_peoples = []
+    for person in peoples:
+        positions_peoples.append(person.position)
+
+    # triée le tableau selon la distance entre la position de la personne et la position du goal
+    positions_sorted = sorted(positions_peoples, key=lambda pos: distance(pos, position_objectif))
+
+    # maintenant je dois retrouver l'instance de la personne
+    peoples_sorted = []
+    for position in positions_sorted:
+        for person in peoples:
+            if person.position == position:
+                peoples_sorted.append(person)
+
+    return peoples_sorted
+
 
 # dimenson de la map
 map_width = 20
@@ -59,7 +82,11 @@ def main():
     update_map_for_each_person(peoples=peoples)
 
     # Maintenant que les autres personnes sont considéré comme des obstacles, je peux alors commencer à faire bouger une personne par une
-    for person in peoples:
+
+    # avant de faire ca, je dois trouvé le personne la plus proche du goal -> enfaite les triers
+    people_sorted = person_sorted_by_distance(peoples=peoples, position_objectif=goal_node.id)
+
+    for person in people_sorted:
         person.make_movement(goal_node)
 
 if __name__ == "__main__":

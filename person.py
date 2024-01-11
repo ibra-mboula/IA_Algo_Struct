@@ -14,7 +14,6 @@ class person:
             self.map.set_obstacle(x=other_person.position[0], y=other_person.position[1])
 
     def make_movement(self,goal_node): # cette fonction va être appelé pour chaque personne pour qu'elle
-            paths = []
             start_node = next(node for node in self.nodes_cpy if node.id == (self.position[0], self.position[1])) # je récupère le noeud de départ
 
             # Réinitialiser les nœuds avant chaque parcours
@@ -23,7 +22,7 @@ class person:
             # Appel de l'algorithme A* pour le parcours
             path = nd.a_star(start_node, goal_node, self.map)
             print(f"Chemin trouvé: {path}")
-            paths.append(path)
 
             # pour vérifier que les autres personnes sont des obstacles
-            plot_map_with_nodes(self.map, self.nodes_cpy, paths)
+            plot_map_with_nodes(self.map, self.nodes_cpy, [path])
+            return path
