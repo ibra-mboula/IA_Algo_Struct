@@ -49,3 +49,9 @@ class Map:
             print(f"la position de la porte est mauvaise, la taille de la matrice est [{self.width},{self.height}]")
             exit()
             
+    def __copy__(self):
+        # Créez une nouvelle instance de la classe avec les mêmes attributs
+        copy_of_map = type(self)(self.width, self.height)
+        copy_of_map.map = np.copy(self.map)  # Utilisez np.copy pour cloner la tableau
+        copy_of_map.position_door = self.position_door.copy()
+        return copy_of_map

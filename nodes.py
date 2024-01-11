@@ -17,6 +17,7 @@ class Node:
             self.neighbors.append(neighbor)
 
 def create_and_connect_nodes(map_instance):
+    
     grid_size_x, grid_size_y = map_instance.width, map_instance.height
     grid = [[None if not map_instance.map[i][j] else Node((i, j)) for j in range(grid_size_y)] for i in range(grid_size_x)] #je créer une instance Node pour chaque coordonnées
 
@@ -26,7 +27,7 @@ def create_and_connect_nodes(map_instance):
             if grid[i][j] is not None:
                 for dx in range(-1, 2):
                     for dy in range(-1, 2):
-                        if dx == 0 and dy == 0:
+                        if dx == 0 and dy == 0: # on vérifie si ce noeud est accessible
                             continue
                         nx, ny = i + dx, j + dy
                         if 0 <= nx < grid_size_x and 0 <= ny < grid_size_y and grid[nx][ny] is not None:
@@ -54,7 +55,7 @@ def a_star(start, goal, map_instance):
         print(f"Exploring Node: {current.id}, f: {current.f}")
 
         # si le noeud courant est le noeud à atteindre alors on retourne le chemin
-        if current == goal:
+        if current.id == goal.id:
             return reconstruct_path(current)
         # sinon, on enlève le noeud courant
         open_set.remove(current)
