@@ -70,7 +70,7 @@ def main():
         print("mauvaise coordonnées de la porte de sortie !!")
         exit()
 
-    position_people = [{"x":0, "y":0,"v":1},{"x":18, "y":9,"v":1},{"x":0, "y":3,"v":11}]  # tableau qui contient les positions de chaque personne dans la pièce
+    position_people = [{"x":0, "y":0,"v":1},{"x":8, "y":19,"v":1},{"x":0, "y":3,"v":11}]  # tableau qui contient les positions de chaque personne dans la pièce
     # x et y correspond à la position de la personne et v est sa vitesse
 
     # je commence par créer les instance de chaque personne

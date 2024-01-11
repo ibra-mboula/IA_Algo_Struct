@@ -29,12 +29,12 @@ class Map:
     def set_obstacle(self,x,y,w=1,h=1): # matrix est considéré comme la map, une map est un ensemble de position en 2 dimensions
         # Un obstacles sera un rectangle à la position x,y avec un longueur de w et une hauteur de h
         # L'obstacle ne va que désactivé certains positions, car il y a un obstacle
-        if(x <= self.width-1 and y <= self.height-1 and x+w <= self.width-1 and y+h <= self.height-1):
+        if(x <= self.width-1 and y <= self.height-1 and x+w <= self.width and y+h <= self.height):
             for i in range(x,x+w):
                 for j in range(y,y+h):
                     self.map[i,j] = False
         else:
-            print("la dimension est mal dimensionné car elle dépasse la map")
+            print("la position de l'obstacle est mal positionné car elle dépasse la map")
             exit()
     
     # méthode qui va initialiser la position de la porte en repsectant que la porte soit dans la périphérie de la map
