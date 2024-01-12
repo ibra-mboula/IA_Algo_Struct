@@ -52,7 +52,7 @@ def a_star(start, goal, map_instance):
 
     while open_set:
         current = min(open_set, key=lambda o: o.f) # on prend le noeud avec le coût total le plus petit car c'est le plus proche de noeud à atteindre
-        print(f"Exploring Node: {current.id}, f: {current.f}")
+        #print(f"Exploring Node: {current.id}, f: {current.f}")
 
         # si le noeud courant est le noeud à atteindre alors on retourne le chemin
         if current.id == goal.id:

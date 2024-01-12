@@ -85,6 +85,9 @@ def main():
     for person in peoples:
         arrived.append(person.arrived)
 
+    # et je créer un tableau avec les personnes qui sont sortie de la map
+    people_who_go_out = []
+
     while False in arrived:
         # ensuite, je vai(s changer l'environnement selon la perception des personnes => une personne est une obstacles pour la personne qui va bouger
         update_map_for_each_person(peoples=peoples)
@@ -109,7 +112,8 @@ def main():
                 # je prend alors la partie qu'il faut
                 for i in range(path.speed+1):
                     best_way_per_step.append(paths_per_person[path][i])
-                print(best_way_per_step)
+                #print(best_way_per_step)
+                path.each_movement.append(best_way_per_step) # je save le mouvement
                 path.position = best_way_per_step[len(best_way_per_step)-1]
             else:
                 # ca signifie que le goal a été atteint donc la personne n'est plus un obstacle donc je dois juste l'enlever des peoples
@@ -117,16 +121,20 @@ def main():
                 best_way_per_step = paths_per_person[path]
                 if len(best_way_per_step) != 0:
                     path.position = best_way_per_step[len(best_way_per_step)-1]
-                    print(best_way_per_step)
+                    #print(best_way_per_step)
+                    path.each_movement.append(best_way_per_step) # je save le mouvement
                 else:
-                    print("la personne est déjà sortie")
-        print("\n")
+                    pass
+                    #print("la personne est déjà sortie")
+        #print("\n")
 
         # j'efface les personne qui sont sortie
         people_who_do_not_goOut = {}
         for person in paths_per_person:
-            if not person.arrived:
+            if not person.arrived:# s'il n'est pas arrivé je met la personne dans le tableau des personne qui sont pas sortie
                 people_who_do_not_goOut[person] = paths_per_person[person]
+            else:# sinon, si la personne est sortie alors je save dans le tableau des personne qui sont sortie
+                people_who_go_out.append(person)
 
         # et à la fin, j'utilise les instances de person et je l'ai met dans people ET je recalcule si toutes les personnes sont arrivées
         peoples.clear()
@@ -137,8 +145,9 @@ def main():
         for person in peoples:
             arrived.append(person.arrived)
         
-        input()
+    return mp,people_who_go_out
 
 
 if __name__ == "__main__":
-    main()
+    map,step_per_person = main()
+    print("la map est les mouvements sont reconnues")

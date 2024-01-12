@@ -28,7 +28,7 @@ class person:
 
                 # Appel de l'algorithme A* pour le parcours
                 path = nd.a_star(start_node, goal_node, self.map)
-                print(f"Chemin trouvé: {path}")
+                #print(f"Chemin trouvé: {path}")
 
                 # pour vérifier que les autres personnes sont des obstacles
                 #plot_map_with_nodes(self.map, self.nodes_cpy, [path])
