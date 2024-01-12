@@ -4,6 +4,7 @@ import init_map as im
 import nodes as nd
 from plot import plot_map_with_nodes
 from person import person as ps
+from animat import animate
 
 def set_obstacle_in_map(map,position_obstacle):
     for item in position_obstacle:
@@ -44,11 +45,11 @@ def person_sorted_by_distance(peoples, position_objectif):
 
 
 # dimenson de la map
-map_width = 20
-map_height = 20
+map_width = 50
+map_height = 50
 
 # placement des obstacles
-obstacles=[ {"x":1,"y":1,"w":3,"h":3} , {"x":5,"y":5}] # obstacle par défaut de l'environnement (des tables, des chaises etc)
+obstacles=[ {"x":1,"y":1,"w":3,"h":3} , {"x":5,"y":5}, {"x":10,"y":15,"w":3,"h":5}] # obstacle par défaut de l'environnement (des tables, des chaises etc)
 
 
 def main():
@@ -145,9 +146,10 @@ def main():
         for person in peoples:
             arrived.append(person.arrived)
         
-    return mp,people_who_go_out
+    return mp,goal_node.id,people_who_go_out
 
 
 if __name__ == "__main__":
-    map,step_per_person = main()
-    print("la map est les mouvements sont reconnues")
+    map,goal_node_id,step_per_person = main()
+    ani = animate(map=map, goal_node_id=goal_node_id, step_people=step_per_person)
+    ani.launch_animation()
