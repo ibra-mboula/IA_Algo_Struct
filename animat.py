@@ -15,7 +15,7 @@ class animate:
         # Paramètres de la fenêtre et de la taille des case pour les obstacles, porte de sortie etc
         largeur_fenetre = 800
         hauteur_fenetre = 800
-        taille_case = 16
+        taille_case = 16 # pour que les bord soit bon => 16.49=784 envirion 800 pixels c'est bon
 
         # Création de la fenêtre avec un titre
         fenetre = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre))
@@ -31,6 +31,11 @@ class animate:
 
         # Boucle principale
         running = True
+        iterator_mouvement = 0 # me permet de savoir à quelle mouvement sont les personnes
+        movement = self.next_move(iterator=iterator_mouvement) # tableau qui va contenir le mouvement pour chaque personne
+
+        step_movement = 0 # permet de savoir à quelle  étapes est le mouvement
+
         while running:
             # je récupére tous type d'event et si l'event et que l'utilisateur ferme la fenêtre alors pygame s'arrète
             for event in pygame.event.get():
@@ -52,8 +57,24 @@ class animate:
                     elif matrice[i,j] == 2: # et si c'est 2 alors on est à la sortie
                         pygame.draw.rect(fenetre, couleur_sortie, (x, y, taille_case, taille_case))
 
+            # Afficher la position des personnes et actualiser leur position
+            for move in movement:
+                pygame.draw.rect(fenetre, (0,0,0), (move[0][0][0]* taille_case, move[0][0][1]* taille_case, taille_case, taille_case))
+
+
             # Mettre à jour l'affichage
             pygame.display.flip()
 
         # Quitter Pygame
         pygame.quit()
+    
+    def next_move(self, iterator) -> list:
+        
+        array_to_return = [] # contient les positions de chaque personne qui sont dans la pièces
+        for person in self.data:
+            if len(person.each_movement) > iterator: # tant qu'on dépasse le nombre de mouvement de la personne c'est je prend son mouvement
+                array_to_return.append([person.each_movement[iterator]])
+        
+        return array_to_return
+
+
