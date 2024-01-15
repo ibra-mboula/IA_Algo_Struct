@@ -49,7 +49,7 @@ map_width = 50
 map_height = 50
 
 # placement des obstacles
-obstacles=[ {"x":1,"y":1,"w":3,"h":3} , {"x":5,"y":5}, {"x":10,"y":15,"w":3,"h":5}] # obstacle par défaut de l'environnement (des tables, des chaises etc)
+obstacles=[ {"x":1,"y":1,"w":3,"h":3} , {"x":5,"y":5}, {"x":10,"y":15,"w":3,"h":5}, {"x":10,"y":35,"w":30,"h":15}] # obstacle par défaut de l'environnement (des tables, des chaises etc)
 
 
 def main():
@@ -64,14 +64,16 @@ def main():
     all_nodes = nd.create_and_connect_nodes(mp)
 
     # Saisie utilisateur pour le nœud de sortie
-    goal_x, goal_y = map(int, input("Entrez les coordonnées du nœud de sortie (x y): ").split())
+    #goal_x, goal_y = map(int, input("Entrez les coordonnées du nœud de sortie (x y): ").split()) # ===> à décommenter
+    goal_x = 49
+    goal_y = 49
     try:
         goal_node = next(node for node in all_nodes if node.id == (goal_x, goal_y))
     except:
         print("mauvaise coordonnées de la porte de sortie !!")
         exit()
 
-    position_people = [{"x":0, "y":0,"v":1},{"x":8, "y":19,"v":1},{"x":0, "y":3,"v":11}]  # tableau qui contient les positions de chaque personne dans la pièce
+    position_people = [{"x":0, "y":0,"v":2},{"x":8, "y":19,"v":1}]  # tableau qui contient les positions de chaque personne dans la pièce
     # x et y correspond à la position de la personne et v est sa vitesse
 
     # je commence par créer les instance de chaque personne
