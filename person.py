@@ -11,9 +11,12 @@ class person:
         self.arrived = False
         self.each_movement = [] # chaque item de la table correspond à un mouvement d'une personne
 
-    def make_new_map(self,other_peoples): # créer la nouvelle map mais par rapport à la perception de cette personne
+    def make_new_map(self,other_peoples, map_without_person): # créer la nouvelle map mais par rapport à la perception de cette personne
+        # je modifie d'abord le clone de la map sans personne
         for other_person in other_peoples:
-            self.map.set_obstacle(x=other_person.position[0], y=other_person.position[1])
+            map_without_person.set_obstacle(x=other_person.position[0], y=other_person.position[1])
+        # Et enfin, je peux remplacer la perception de la map de la personne
+        self.map = map_without_person
 
     def make_movement(self,goal_node): # cette fonction va être appelé pour chaque personne pour qu'elle
             # je vérifie que la personne n'est pas déjà arrivé

@@ -5,6 +5,7 @@ import nodes as nd
 from plot import plot_map_with_nodes
 from person import person as ps
 from animat import animate
+import copy
 
 def set_obstacle_in_map(map,position_obstacle):
     for item in position_obstacle:
@@ -15,12 +16,13 @@ def set_obstacle_in_map(map,position_obstacle):
             
     return map
 
-def update_map_for_each_person(peoples):
+def update_map_for_each_person(peoples, original_map_without_peoples):
     for person in peoples:
         peoples_array_cloned = peoples.copy()  # Je fais une copie du tableau de personnes en enlevant bien sûr la personne du tableau
         peoples_without_person = [p for p in peoples_array_cloned if p != person]
-        person.make_new_map(other_peoples=peoples_without_person)
+        person.make_new_map(other_peoples=peoples_without_person, map_without_person=original_map_without_peoples.__copy__())
         person.nodes_cpy = nd.create_and_connect_nodes(person.map)
+    return peoples
 
 def distance(position1, position2):
     return math.sqrt((position2[0] - position1[0])**2 + (position2[1] - position1[1])**2)
@@ -45,11 +47,11 @@ def person_sorted_by_distance(peoples, position_objectif):
 
 
 # dimenson de la map
-map_width = 50
-map_height = 50
+map_width = 62
+map_height = 30
 
 # placement des obstacles
-obstacles=[ {"x":1,"y":1,"w":3,"h":3} , {"x":5,"y":5}, {"x":10,"y":15,"w":3,"h":5}, {"x":10,"y":35,"w":30,"h":15}] # obstacle par défaut de l'environnement (des tables, des chaises etc)
+obstacles=[ {"x":1,"y":1,"w":3,"h":3} , {"x":5,"y":5}] # obstacle par défaut de l'environnement (des tables, des chaises etc)
 
 
 def main():
@@ -65,15 +67,15 @@ def main():
 
     # Saisie utilisateur pour le nœud de sortie
     #goal_x, goal_y = map(int, input("Entrez les coordonnées du nœud de sortie (x y): ").split()) # ===> à décommenter
-    goal_x = 49
-    goal_y = 49
+    goal_x = 61
+    goal_y = 29
     try:
         goal_node = next(node for node in all_nodes if node.id == (goal_x, goal_y))
     except:
         print("mauvaise coordonnées de la porte de sortie !!")
         exit()
 
-    position_people = [{"x":0, "y":0,"v":2},{"x":8, "y":19,"v":1}]  # tableau qui contient les positions de chaque personne dans la pièce
+    position_people = [{"x":0, "y":0,"v":10},{"x":8, "y":19,"v":1}]  # tableau qui contient les positions de chaque personne dans la pièce
     # x et y correspond à la position de la personne et v est sa vitesse
 
     # je commence par créer les instance de chaque personne
@@ -92,8 +94,8 @@ def main():
     people_who_go_out = []
 
     while False in arrived:
-        # ensuite, je vai(s changer l'environnement selon la perception des personnes => une personne est une obstacles pour la personne qui va bouger
-        update_map_for_each_person(peoples=peoples)
+        # ensuite, je vais changer l'environnement selon la perception des personnes => une personne est une obstacles pour la personne qui va bouger
+        peoples = update_map_for_each_person(peoples=peoples, original_map_without_peoples=mp)
 
         # Maintenant que les autres personnes sont considéré comme des obstacles, je peux alors commencer à faire bouger une personne par une
 

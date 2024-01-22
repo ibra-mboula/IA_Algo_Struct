@@ -13,9 +13,9 @@ class animate:
         pygame.init()
 
         # Paramètres de la fenêtre et de la taille des case pour les obstacles, porte de sortie etc
-        largeur_fenetre = 800
-        hauteur_fenetre = 800
-        taille_case = 16 # pour que les bord soit bon => 16.49=784 envirion 800 pixels c'est bon
+        largeur_fenetre = 1000
+        hauteur_fenetre = 500
+        taille_case = 16 # pour que les bord soit bon => 16.61=976 envirion 800 pixels c'est bon et 16.29 = 464 du coups tous sera mis dans la fenêtre
 
         # Création de la fenêtre avec un titre
         fenetre = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre))
