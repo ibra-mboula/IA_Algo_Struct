@@ -6,6 +6,7 @@ from plot import plot_map_with_nodes
 from person import person as ps
 from animat import animate
 import copy
+import random
 
 def set_obstacle_in_map(map,position_obstacle):
     for item in position_obstacle:
@@ -51,8 +52,8 @@ map_width = 62
 map_height = 30
 
 # placement des obstacles
-obstacles=[ {"x":1,"y":1,"w":3,"h":3} , {"x":5,"y":5}] # obstacle par défaut de l'environnement (des tables, des chaises etc)
-
+obstacles=[ {"x":1,"y":1,"w":3,"h":3} , {"x":5,"y":5}, {"x":20,"y":16,"w":10,"h":3},{"x":40,"y":10,"w":10,"h":15},{"x":32,"y":6,"w":3,"h":18}] # obstacle par défaut de l'environnement (des tables, des chaises etc)
+position_people = [{"x":0, "y":0,"v":10},{"x":8, "y":19,"v":1},{"x":9, "y":19,"v":1},{"x":10, "y":19,"v":2}]  # tableau qui contient les positions de chaque personne dans la pièce
 
 def main():
 
@@ -75,7 +76,6 @@ def main():
         print("mauvaise coordonnées de la porte de sortie !!")
         exit()
 
-    position_people = [{"x":0, "y":0,"v":10},{"x":8, "y":19,"v":1}]  # tableau qui contient les positions de chaque personne dans la pièce
     # x et y correspond à la position de la personne et v est sa vitesse
 
     # je commence par créer les instance de chaque personne
@@ -112,7 +112,7 @@ def main():
                 paths_per_person[person] = [] # La personne est arrivée, le tableau doit alors être vide
         # et maintenant, je peut couper le chemin parfait selon la vitesse de la personne
         for path in paths_per_person:
-            best_way_per_step = []
+            best_way_per_step = [ ]
             if len(paths_per_person[path])-1 > path.speed:
                 # je prend alors la partie qu'il faut
                 for i in range(path.speed+1):

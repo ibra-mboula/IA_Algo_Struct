@@ -27,7 +27,7 @@ def create_and_connect_nodes(map_instance):
             if grid[i][j] is not None:
                 for dx in range(-1, 2):
                     for dy in range(-1, 2):
-                        if dx == 0 and dy == 0: # on vérifie si ce noeud est accessible
+                        if dx == 0 and dy == 0: # on vérifie cela pour éviter que le noeuds i,j  n'est pas son voisin
                             continue
                         nx, ny = i + dx, j + dy
                         if 0 <= nx < grid_size_x and 0 <= ny < grid_size_y and grid[nx][ny] is not None:

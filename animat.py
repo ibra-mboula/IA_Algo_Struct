@@ -25,8 +25,8 @@ class animate:
 
         # Couleurs
         couleur_case_vide = (255, 255, 255) # blanc si y a rien
-        couleur_case_pleine = (96,96,96) # gris s'il y a des obstacles
-        couleur_sortie = (0,86,27) # couleur vert pour la sortie 
+        couleur_case_pleine = (255,0,0) # gris s'il y a des obstacles
+        couleur_sortie = (0,255,0) # couleur vert pour la sortie 
 
         # Boucle principale
         running = True
@@ -57,7 +57,7 @@ class animate:
                     y = i * taille_case
                     if matrice[i, j] == 1: # si la valeur de cette coordonné est 1, ca signifiait True donc la case est vide
                         pygame.draw.rect(fenetre, couleur_case_vide, (y, x, taille_case, taille_case))
-                    elif matrice[i,j] == 0: # sinon, si c'est null ca signifie qu'il y a une obstacle donc je dessine en gris
+                    elif matrice[i,j] == 0: # sinon, si c'est null ca signifie qu'il y a une obstacle donc je dessine en rouge
                         pygame.draw.rect(fenetre, couleur_case_pleine, (y, x, taille_case, taille_case))
                     elif matrice[i,j] == 2: # et si c'est 2 alors on est à la sortie
                         pygame.draw.rect(fenetre, couleur_sortie, (y, x, taille_case, taille_case))
@@ -66,9 +66,11 @@ class animate:
             for move in movement:
                 if step_of_move < len(move[0]):
                     position = move[0][step_of_move]
+                    # pygame.draw.circle(fenetre,(0,0,0),(position[0]* taille_case, position[1]* taille_case),7)
                     pygame.draw.rect(fenetre, (0,0,0), (position[0]* taille_case, position[1]* taille_case, taille_case, taille_case))
                 else: # sinon, il reste dans la dernière position
                     position = move[0][len(move[0])-1]
+                    # pygame.draw.circle(fenetre,(0,0,0),(position[0]* taille_case, position[1]* taille_case),7)
                     pygame.draw.rect(fenetre, (0,0,0), (position[0]* taille_case, position[1]* taille_case, taille_case, taille_case))
             
             step_of_move += 1
